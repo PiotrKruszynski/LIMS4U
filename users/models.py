@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
+from .validators import validate_nip
 
 # Create your models here.
 
@@ -39,7 +42,7 @@ class User(AbstractUser):
     user_type = models.CharField(max_length=8, choices=USER_TYPE_CHOICES, default='personal')
     company_name = models.CharField(max_length=255, blank=True, null=True)
     company_address = models.CharField(max_length=255, blank=True, null=True)
-    tax_id = models.CharField(max_length=10, blank=True, null=True)
+    tax_id = models.CharField(max_length=10, blank=True, null=True, validators=[validate_nip], verbose_name="NIP")
 
     objects = UserManager()
 
@@ -47,7 +50,7 @@ class User(AbstractUser):
         super().clean()
         if self.user_type == 'company':
             if not self.company_name or not self.company_address or not self.tax_id:
-                raise ValidationError("Pola nazwa firmy, addres firmy i NIP są wymagane.")
+                raise ValidationError(_("Pola nazwa firmy, adres firmy i NIP są wymagane."))
 
     def __str__(self):
         return self.email
