@@ -18,10 +18,9 @@ from .validators import (
 from .models import User
 
 class RegisterForm(forms.ModelForm):
-    first_name = forms.CharField(validators=[validate_first_name])
-    last_name = forms.CharField(validators=[validate_last_name])
+    first_name = forms.CharField(validators=[validate_first_name], required=True)
+    last_name = forms.CharField(validators=[validate_last_name], required=True)
     email = forms.EmailField(required=True, validators=[validate_exist_email, validate_email])
-
     password = forms.CharField(
         widget=forms.PasswordInput(),
         label="Hasło",
