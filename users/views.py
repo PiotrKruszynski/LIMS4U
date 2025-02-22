@@ -1,7 +1,7 @@
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
-
+from django.contrib import messages
 from .forms import RegisterForm, LoginForm
 
 # Create your views here.
@@ -19,7 +19,9 @@ class RegisterView(View):
             user.set_password(form.cleaned_data['password'])
             user.save()
             login(request, user)
+            messages.success(request, 'Zarejestrowano i zalogowano pomyślnie!')
             return redirect('main')
+        messages.error(request, 'Popraw błędy w formularzu')
         ctx = {'form': form}
         return render(request, 'register.html', ctx)
 
