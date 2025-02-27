@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header">
+    <h4>Normy badawcze</h4>
+  </div>
+  <div class="card-body">
+    <div class="list-group">
+      {% for standard in object_list %}
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex flex-column">
+          <h6 class="mb-1 text-start">{{ standard.name }}</h6>
+          <p class="mb-0 text-start">Metoda badawcza: {{ standard.method }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

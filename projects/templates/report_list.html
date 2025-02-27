@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4>Sprawozdania</h4>
+    {% if request.user.groups.all.0.name == 'Lab_member' or request.user.is_superuser %}
+      <a href="{% url 'report_create' %}" class="btn btn-dark btn-sm">+ Nowe sprawozdanie</a>
+    {% endif %}
+  </div>
+  
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Numer</th>
+          <th>Projekt</th>
+          <th>Próbka</th>
+          <th>Status</th>
+          <th class="text-end">Akcje</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for report in reports %}
+        <tr>
+          <td>{{ report.code_name }}</td>
+          <td>{{ report.project.name }}</td>
+          <td>{{ report.sample.name|default:"-" }}</td>
+          <td>
+            {% if report.approved_by %}
+              <span class="badge bg-success">Zaakceptowane</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">W przygotowaniu</span>
+            {% endif %}
+          </td>
+          <td class="text-end">
+            <a href="{% url 'report_detail' report.code_name %}" class="btn btn-sm btn-outline-primary">Szczegóły</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center text-muted py-4">Brak sprawozdań</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

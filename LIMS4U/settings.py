@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'projects',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -120,10 +121,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Miejsce, gdzie Django będzie szukać statycznych plików aplikacji
-STATICFILES_DIRS = [
-    BASE_DIR / "users" / "static",
-    BASE_DIR / "projects" / "static",
-]
+STATICFILES_DIRS = []
 
 # Miejsce docelowe dla `collectstatic` (dla środowiska produkcyjnego)
 # STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -134,3 +132,14 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+# Email settings dla login password confirmation
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = 'apikey'
+    EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_API_KEY')

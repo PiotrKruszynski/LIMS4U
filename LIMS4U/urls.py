@@ -18,12 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic import RedirectView
 from django.contrib.auth import views as auth_views
-
+from django.contrib.auth.decorators import login_required
+import projects.views as views
 from users.views import (
     RegisterView,
     LoginView,
     LogoutView,
+    UserProfileView,
 )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,4 +34,76 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('password_reset/',
+         auth_views.PasswordResetView.as_view(
+             template_name='password_reset.html',
+             email_template_name='registration/password_reset_email.html',
+             subject_template_name='registration/password_reset_subject.txt'
+         ),
+         name='password_reset'),
+    path('password_reset/done/',
+         auth_views.PasswordResetDoneView.as_view(
+             template_name='password_reset_done.html'
+         ),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(
+             template_name='password_reset_confirm.html'
+         ),
+         name='password_reset_confirm'),
+    path('reset/done/',
+         auth_views.PasswordResetCompleteView.as_view(
+             template_name='password_reset_complete.html'
+         ),
+         name='password_reset_complete'),
+    path('user/profile/', UserProfileView.as_view(), name='user_profile'),
+
+    # Projects ___________________________________________________________________
+
+    path('projects/',
+         login_required(views.ProjectListView.as_view()),
+         name='project_list'),
+    path('projects/new/',
+         login_required(views.ProjectCreateView.as_view()),
+         name='project_create'),
+    path('projects/<int:pk>/',
+         login_required(views.ProjectDetailView.as_view()),
+         name='project_detail'),
+    path('projects/<int:pk>/edit/',
+         login_required(views.ProjectUpdateView.as_view()),
+         name='project_update'),
+    path('projects/<int:pk>/delete/',
+         login_required(views.ProjectDeleteView.as_view()),
+         name='project_delete'),
+
+    # Samples ___________________________________________________________________
+
+    path('samples/',
+         login_required(views.SampleListView.as_view()),
+         name='sample_list'),
+    path('samples/new/',
+         login_required(views.SampleCreateView.as_view()),
+         name='sample_create'),
+    path('samples/<int:pk>/',
+         login_required(views.SampleDetailView.as_view()),
+         name='sample_detail'),
+
+    # Reports ___________________________________________________________________
+
+    path('reports/',
+         login_required(views.ReportListView.as_view()),
+         name='report_list'),
+    path('reports/new/',
+         login_required(views.ReportCreateView.as_view()),
+         name='report_create'),
+    path('reports/<str:code_name>/',
+         login_required(views.ReportDetailView.as_view()),
+         name='report_detail'),
+
+    # Standards ___________________________________________________________________
+
+    path('standards/',
+         login_required(views.ResearchStandardListView.as_view()),
+         name='standard_list'),
 ]
+

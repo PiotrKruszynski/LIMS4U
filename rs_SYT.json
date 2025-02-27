@@ -1,0 +1,54 @@
+[
+    {
+        "name": "ISO 2549",
+        "method": "Wysokość włókna"
+    },
+    {
+        "name": "ISO 1763",
+        "method": "Ilość pęczków i włókien"
+    },
+    {
+        "name": "ISO 8543",
+        "method": "Waga włókna i waga całkowita"
+    },
+    {
+        "name": "PN-EN 15330-1:2014",
+        "method": "Grubość włókna"
+    },
+    {
+        "name": "ISO 11357-3",
+        "method": "Skład włókna"
+    },
+    {
+        "name": "PN-EN 12616",
+        "method": "Przepuszczalność wody"
+    },
+    {
+        "name": "ISO 4919",
+        "method": "Siła wyrywania pęczka przed i po starzeniu"
+    },
+    {
+        "name": "PN-EN 12228",
+        "method": "Wytrzymałość łączenia klejowego przed i po starzeniu"
+    },
+    {
+        "name": "PN-EN ISO 1183-1:2013-06E",
+        "method": "Gęstość podkładu amortyzującego"
+    },
+    {
+        "name": "PN-EN 1969:2002",
+        "method": "Grubość podkładu amortyzującego"
+    },
+    {
+        "name": "PN-EN 14809:2006 + AC:2007",
+        "method": "Odkształcenie pionowe systemu"
+    },
+    {
+        "name": "PN-EN 14808:2006",
+        "method": "Absorpcja wstrząsów systemu"
+    },
+    {
+        "name": "PN-EN 12230:2005",
+        "method": "Wytrzymałość na rozciąganie"
+    }
+]

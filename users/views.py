@@ -1,10 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from django.views.generic import TemplateView
+
 from .forms import RegisterForm, LoginForm
 
-# Create your views here.
 
 class RegisterView(View):
     def get(self, request):
@@ -20,10 +22,11 @@ class RegisterView(View):
             user.save()
             login(request, user)
             messages.success(request, 'Zarejestrowano i zalogowano pomyślnie!')
-            return redirect('main')
+            return redirect('project_list')
         messages.error(request, 'Popraw błędy w formularzu')
         ctx = {'form': form}
         return render(request, 'register.html', ctx)
+
 
 class LoginView(View):
     def get(self, request):
@@ -39,7 +42,7 @@ class LoginView(View):
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
-                return redirect('main')
+                return redirect('project_list')
         return render(request, 'login.html', {'form': form})
 
 
@@ -49,4 +52,14 @@ class LogoutView(View):
         return redirect('login')
 
 
+class UserProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_profile.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context.update({
+            'user': user,
+            'is_company': user.user_type == 'company'
+        })
+        return context

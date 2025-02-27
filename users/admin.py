@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User
 
-@admin.register(User)
+@admin.register(User) # admin.site.register(User)
 class CustomUserAdmin(UserAdmin):
     # Pola wyświetlane na liście użytkowników
     list_display = ('email', 'user_type', 'company_name', 'is_staff', 'is_active')

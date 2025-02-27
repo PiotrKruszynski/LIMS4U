@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4>{{ sample.name }}</h4>
+    {% if request.user.groups.all.0.name == 'Lab_member' or request.user.is_superuser %}
+      <div>
+        <a href="{% url 'sample_update' sample.pk %}" class="btn btn-sm btn-outline-secondary">Edytuj</a>
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">Typ materiału:</dt>
+      <dd class="col-sm-9">{{ sample.get_material_type_display }}</dd>
+      
+      <dt class="col-sm-3">Data pobrania:</dt>
+      <dd class="col-sm-9">{{ sample.collection_date|date:"Y-m-d" }}</dd>
+      
+      <dt class="col-sm-3">Opis:</dt>
+      <dd class="col-sm-9">{{ sample.description|default:"-" }}</dd>
+    </dl>
+    
+    <h5>Powiązane sprawozdania</h5>
+    <ul class="list-group">
+      {% for report in sample.report_set.all %}
+        <li class="list-group-item">
+          <a href="{% url 'report_detail' report.code_name %}">{{ report.code_name }}</a>
+        </li>
+      {% empty %}
+        <li class="list-group-item text-muted">Brak powiązanych sprawozdań</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
