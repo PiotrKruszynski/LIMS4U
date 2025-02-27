@@ -6,9 +6,8 @@ from django.utils.translation import gettext_lazy as _
 
 from .validators import validate_nip
 
-# Create your models here.
 
-class UserManager(BaseUserManager):
+class UserManager(BaseUserManager):  # obsługuje użytkowników z username=None)
 
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -30,19 +29,27 @@ class UserManager(BaseUserManager):
             raise ValueError("Superuser musi mieć is_superuser=True.")
         return self.create_user(email, password, **extra_fields)
 
+
+# https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#specifying-custom-user-model
 class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name','last_name']
+    REQUIRED_FIELDS = ['first_name', 'last_name']
     USER_TYPE_CHOICES = [
         ('personal', 'Personal'),
         ('company', 'Company')
     ]
-    user_type = models.CharField(max_length=8, choices=USER_TYPE_CHOICES, default='personal')
+    user_type = models.CharField(
+        max_length=8, choices=USER_TYPE_CHOICES,
+        default='personal'
+    )
     company_name = models.CharField(max_length=255, blank=True, null=True)
     company_address = models.CharField(max_length=255, blank=True, null=True)
-    tax_id = models.CharField(max_length=10, blank=True, null=True, validators=[validate_nip], verbose_name="NIP")
+    tax_id = models.CharField(
+        max_length=10, blank=True, null=True,
+        validators=[validate_nip], verbose_name="NIP"
+    )
 
     objects = UserManager()
 
@@ -50,8 +57,9 @@ class User(AbstractUser):
         super().clean()
         if self.user_type == 'company':
             if not self.company_name or not self.company_address or not self.tax_id:
-                raise ValidationError(_("Pola nazwa firmy, adres firmy i NIP są wymagane."))
+                raise ValidationError(
+                    _("Pola nazwa firmy, adres firmy i NIP są wymagane.")
+                )
 
     def __str__(self):
         return self.email
-

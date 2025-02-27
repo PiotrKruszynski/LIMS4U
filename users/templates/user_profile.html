@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="margin-top: 100px;">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header">
+          <h4>Profil użytkownika</h4>
+        </div>
+        
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Email:</dt>
+            <dd class="col-sm-8">{{ user.email }}</dd>
+            
+            <dt class="col-sm-4">Imię:</dt>
+            <dd class="col-sm-8">{{ user.first_name|default:"-" }}</dd>
+            
+            <dt class="col-sm-4">Nazwisko:</dt>
+            <dd class="col-sm-8">{{ user.last_name|default:"-" }}</dd>
+            
+            <dt class="col-sm-4">Typ konta:</dt>
+            <dd class="col-sm-8">{{ user.get_user_type_display }}</dd>
+            
+            {% if is_company %}
+              <dt class="col-sm-4">Nazwa firmy:</dt>
+              <dd class="col-sm-8">{{ user.company_name }}</dd>
+              
+              <dt class="col-sm-4">Adres firmy:</dt>
+              <dd class="col-sm-8">{{ user.company_address|default:"-" }}</dd>
+              
+              <dt class="col-sm-4">NIP:</dt>
+              <dd class="col-sm-8">{{ user.tax_id|default:"-" }}</dd>
+            {% endif %}
+          </dl>
+          
+          <div class="d-flex justify-content-end">
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger">Wyloguj</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

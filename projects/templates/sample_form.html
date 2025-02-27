@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header">
+    <h4>{% if object %}Edytuj próbkę{% else %}Nowa próbka{% endif %}</h4>
+  </div>
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label">{{ field.label }}</label>
+          {% render_field field class="form-control" %}
+          {% if field.help_text %}<small class="form-text text-muted">{{ field.help_text }}</small>{% endif %}
+          {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+        </div>
+      {% endfor %}
+      <div class="d-flex justify-content-end">
+        <a href="{% url 'sample_list' %}" class="btn btn-secondary">Anuluj</a>
+        <button type="submit" class="btn btn-primary ms-2">Zapisz</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

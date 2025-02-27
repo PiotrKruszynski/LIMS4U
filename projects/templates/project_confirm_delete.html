@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header">
+    <h4>Potwierdź usunięcie projektu</h4>
+  </div>
+  <div class="card-body">
+    <p>Czy na pewno chcesz usunąć projekt <strong>{{ object.name }}</strong>?</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="d-flex justify-content-end gap-2">
+        <a href="{% url 'project_detail' object.pk %}" class="btn btn-secondary">Anuluj</a>
+        <button type="submit" class="btn btn-danger">Usuń</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

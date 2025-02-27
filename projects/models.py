@@ -8,7 +8,9 @@ from .validators import validate_code_name, validate_material_type, validate_dat
 # https://docs.djangoproject.com/en/5.1/topics/auth/customizing/ Instead of referring to User directly, you should reference the user model using django.contrib.auth.get_user_model(). This method will return the currently active user model – the custom user model if one is specified, or User otherwise.
 User = get_user_model()
 
+# Project model ______________________________________________________________________________________________________
 # powiązanie między Sample a Project idzie przez Report
+
 class Project(models.Model):
     # https://docs.djangoproject.com/en/5.1/ref/models/fields/
     class StatusChoices(models.TextChoices):
@@ -35,13 +37,12 @@ class Project(models.Model):
         choices=StatusChoices.choices,
         default=StatusChoices.OPEN
     )
-
     end_date = models.DateField(null=True, blank=True)
 
     class Meta:
         verbose_name = _("Projekt")
         verbose_name_plural = _("Projekty")
-        ordering = ['-end_date']
+        ordering = ['-name']
 
     def save(self, *args, **kwargs):
         # Zamknięcie projektu -> ustaw datę
@@ -56,6 +57,8 @@ class Project(models.Model):
 
     def __str__(self):
         return f"Projekt: {self.name} | Klient: {self.client.email} | Status: {self.status}"
+
+# Sample model ______________________________________________________________________________________________________
 
 class Sample(models.Model):
     class MaterialType(models.TextChoices):
@@ -90,17 +93,27 @@ class Sample(models.Model):
         material = self.get_material_type_display() # metoda get_FIELDNAME_display()
         return f"{self.name} ({material if material != 'Unselected' else 'Materiał nie został wybrany'})"
 
+# ResearchStandard model ______________________________________________________________________________________________
+
 class ResearchStandard(models.Model):
-    name = models.CharField("Norma badawcza", max_length=50, unique=True, help_text="Nazwa normy badawczej np. PN-EN 206")
+    name = models.CharField("Norma badawcza", max_length=50, help_text="Nazwa normy badawczej np. PN-EN 206")
     method = models.CharField(max_length=50, help_text="Metoda badania np. Wytrzymałość na ściskanie")
 
     class Meta:
         verbose_name = _("Norma Badawcza")
         verbose_name_plural = _("Normy Badawcze")
         ordering = ['name']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'method'],
+                name='unique_standard_method'
+            )
+        ]
 
     def __str__(self):
         return f"Norma: {self.name} |Metoda badawcza: {self.method}"
+
+# Report model _____________________________________________________________________________________________
 
 class Report(models.Model):
     code_name = models.CharField("Numer sprawozdania", max_length=16, unique=True, validators=[validate_code_name], help_text="Numer sprawozdania (litery/numery/-)")
@@ -131,6 +144,8 @@ class Report(models.Model):
 
     def __str__(self):
         return f"Sprawozdanie: {self.code_name} | Projekt: {self.project.name}"
+
+# ReportResearchStandard model ______________________________________________________________________________________
 
 class ReportResearchStandard(models.Model):
     report = models.ForeignKey(Report, on_delete=models.CASCADE)

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4>Lista próbek</h4>
+    {% if request.user.groups.all.0.name == 'Lab_member' or request.user.is_superuser %}
+      <a href="{% url 'sample_create' %}" class="btn btn-dark btn-sm">+ Nowa próbka</a>
+    {% endif %}
+  </div>
+  
+  <div class="card-body">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Materiał</th>
+          <th>Data pobrania</th>
+          <th class="text-end">Akcje</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sample in samples %}
+        <tr>
+          <td>{{ sample.name }}</td>
+          <td>{{ sample.get_material_type_display }}</td>
+          <td>{{ sample.collection_date|date:"Y-m-d"|default:"-" }}</td>
+          <td class="text-end">
+            <a href="{% url 'sample_detail' sample.pk %}" class="btn btn-sm btn-outline-primary">Szczegóły</a>
+            {% if request.user.groups.all.0.name == 'Lab_member' or request.user.is_superuser %}
+              <a href="{% url 'sample_update' sample.pk %}" class="btn btn-sm btn-outline-secondary">Edytuj</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center text-muted py-4">
+            Brak próbek do wyświetlenia
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

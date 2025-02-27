@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h4>{{ project.name }}</h4>
+    {% if request.user.groups.all.0.name == 'Lab_member' or request.user.is_superuser %}
+      <div>
+        <a href="{% url 'project_update' project.pk %}" class="btn btn-sm btn-outline-secondary">Edytuj</a>
+        <a href="{% url 'project_delete' project.pk %}" class="btn btn-sm btn-outline-danger">Usuń</a>
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Podstawowe informacje</h5>
+        <dl class="row">
+          <dt class="col-sm-4">Klient:</dt>
+          <dd class="col-sm-8">{{ project.client.company_name }}</dd>
+          
+          <dt class="col-sm-4">Status:</dt>
+          <dd class="col-sm-8">
+            <span class="badge bg-{% if project.status == 'closed' %}success{% else %}primary{% endif %}">
+              {{ project.get_status_display }}
+            </span>
+          </dd>
+          
+          <dt class="col-sm-4">Data zakończenia:</dt>
+          <dd class="col-sm-8">{{ project.end_date|default:"-" }}</dd>
+        </dl>
+      </div>
+      
+      <div class="col-md-6">
+        <h5>Przypisane sprawozdania</h5>
+        <ul class="list-group">
+          {% for report in project.report_set.all %}
+            <li class="list-group-item">
+              <a href="{% url 'report_detail' report.code_name %}">{{ report.code_name }}</a>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">Brak sprawozdań</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

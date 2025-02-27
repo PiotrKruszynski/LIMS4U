@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow">
+  <div class="card-header">
+    <h4>{% if object %}Edytuj Projekt{% else %}Nowy Projekt{% endif %}</h4>
+  </div>
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Zapisz</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
