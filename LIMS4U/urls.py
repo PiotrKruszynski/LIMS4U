@@ -27,7 +27,7 @@ from users.views import (
     UserProfileView,
 )
 
-
+# as_view - metoda klasy View, tworzy egzemplarz, zwraca f. widoku, która ogarnie żądanie HTTP - wywołuje metode get/post/..
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='/login/'), name='home_redirect'),

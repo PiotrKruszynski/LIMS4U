@@ -119,7 +119,7 @@ class Report(models.Model):
     code_name = models.CharField("Numer sprawozdania", max_length=16, unique=True, validators=[validate_code_name], help_text="Numer sprawozdania (litery/numery/-)")
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     sample = models.OneToOneField(Sample, on_delete=models.SET_NULL, null=True, blank=True, related_name='report')
-    research_standards = models.ManyToManyField(ResearchStandard,through='ReportResearchStandard',related_name='reports')
+    research_standards = models.ManyToManyField(ResearchStandard,through='ReportResearchStandard',related_name='reports') # a bez related_name byłoby report_set_all
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     approved_by = models.ForeignKey(
