@@ -35,6 +35,9 @@
           </td>
           <td class="text-end">
             <a href="{% url 'report_detail' report.code_name %}" class="btn btn-sm btn-outline-primary">Szczegóły</a>
+            {% if request.user.groups.all.0.name == 'Lab_member' or request.user.is_superuser %}
+              <a href="{% url 'report_update' report.code_name %}" class="btn btn-sm btn-outline-secondary">Edytuj</a>
+            {% endif %}
           </td>
         </tr>
         {% empty %}

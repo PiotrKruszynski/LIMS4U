@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="container" style="margin-top: 100px;">
-  <!-- Kafelki wybierz typ konta -->
   <div class="row mb-4">
     <div class="col-md-6 mb-3">
       <div class="card account-type" data-type="personal">
@@ -24,12 +23,10 @@
     </div>
   </div>
 
-  <!-- Formularz rejestracji -->
   <form method="post" class="form-horizontal">
     {% csrf_token %}
     <input type="hidden" name="user_type" id="id_user_type" value="personal">
 
-    <!-- Wspólne pola -->
     <div class="row mb-3">
       <label class="col-sm-3 col-form-label">Email</label>
       <div class="col-sm-9">
@@ -60,7 +57,6 @@
       </div>
     </div>
 
-    <!-- Pola hasła -->
     <div class="row mb-3">
       <label class="col-sm-3 col-form-label">Hasło</label>
       <div class="col-sm-9">
@@ -83,7 +79,6 @@
       </div>
     </div>
 
-    <!-- Pola firmowe -->
     <div id="company-fields" style="display:none;">
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Nazwa firmy</label>

@@ -2,10 +2,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import Group
 from django.contrib import messages
-from django.views.generic import TemplateView
 
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, UserProfileForm
 
 
 class RegisterView(View):
@@ -20,6 +20,8 @@ class RegisterView(View):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            default_group = Group.objects.get(name='Lab_user')
+            user.groups.add(default_group)
             login(request, user)
             messages.success(request, 'Zarejestrowano i zalogowano pomyślnie!')
             return redirect('project_list')
@@ -52,14 +54,38 @@ class LogoutView(View):
         return redirect('login')
 
 
-class UserProfileView(LoginRequiredMixin, TemplateView):
-    template_name = 'user_profile.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        context.update({
+class UserProfileView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        form = UserProfileForm()
+        ctx = {
             'user': user,
+            'form': form,
             'is_company': user.user_type == 'company'
-        })
-        return context
+        }
+        return render(request, 'user_profile.html', ctx)
+
+
+class UserProfileEditView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        form = UserProfileForm(instance=user)
+        context = {
+            'form': form,
+            'is_company': user.user_type == 'company'
+        }
+        return render(request, 'user_form.html', context)
+
+    def post(self, request):
+        user = request.user
+        form = UserProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Konto użytkownika zostało zaktualizowane')
+            return redirect('user_profile')
+        messages.error(request, 'Wystąpił błąd przy próbie aktualizacji konta')
+        context = {
+            'form': form,
+            'is_company': user.user_type == 'company'
+        }
+        return render(request, 'user_form.html', context)

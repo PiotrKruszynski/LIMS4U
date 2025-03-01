@@ -25,9 +25,10 @@ from users.views import (
     LoginView,
     LogoutView,
     UserProfileView,
+    UserProfileEditView,
 )
 
-
+# as_view - metoda klasy View, tworzy egzemplarz, zwraca f. widoku, która ogarnie żądanie HTTP - wywołuje metode get/post/..
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='/login/'), name='home_redirect'),
@@ -57,6 +58,7 @@ urlpatterns = [
          ),
          name='password_reset_complete'),
     path('user/profile/', UserProfileView.as_view(), name='user_profile'),
+    path('user/profile/edit/', UserProfileEditView.as_view(), name='profile_update'),
 
     # Projects ___________________________________________________________________
 
@@ -87,6 +89,9 @@ urlpatterns = [
     path('samples/<int:pk>/',
          login_required(views.SampleDetailView.as_view()),
          name='sample_detail'),
+    path('samples/<int:pk>/edit/',
+         login_required(views.SampleUpdateView.as_view()),
+         name='sample_update'),
 
     # Reports ___________________________________________________________________
 
@@ -99,6 +104,9 @@ urlpatterns = [
     path('reports/<str:code_name>/',
          login_required(views.ReportDetailView.as_view()),
          name='report_detail'),
+    path('reports/<str:code_name>/edit/',
+         login_required(views.ReportUpdateView.as_view()),
+         name='report_update'),
 
     # Standards ___________________________________________________________________
 

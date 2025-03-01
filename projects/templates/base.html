@@ -33,15 +33,14 @@
 </head>
 
 <body>
-  <!-- Navbar -->
+
   <nav class="navbar navbar-expand-lg navbar-custom shadow-sm fixed-top">
     <div class="container-fluid">
-      <!-- Logo -->
+
       <a class="navbar-brand" href="{% url 'project_list' %}">
         <img src="{% static 'users/images/logo_jasne.png' %}" alt="Logo" height="60">
       </a>
 
-      <!-- User Info and Logout -->
       <div class="ml-auto">
         <span class="navbar-text text-white me-3">
           <a href="{% url 'user_profile' %}" class="text-white text-decoration-none">
@@ -53,30 +52,25 @@
     </div>
   </nav>
 
-  <!-- Main Wrapper -->
   <div class="container-fluid" style="margin-top: 76px;">
     <div class="row">
-      <!-- Sidebar -->
+
       <div class="col-md-3 col-lg-2 sidebar d-md-block">
         <div class="list-group">
           <h5 class="mb-3">Zarządzanie</h5>
 
-          <!-- Projects -->
           <a href="{% url 'project_list' %}" class="list-group-item list-group-item-action">
             Projekty
           </a>
 
-          <!-- Samples -->
           <a href="{% url 'sample_list' %}" class="list-group-item list-group-item-action mt-2">
             Próbki
           </a>
 
-          <!-- Reports -->
           <a href="{% url 'report_list' %}" class="list-group-item list-group-item-action mt-2">
             Sprawozdania
           </a>
 
-          <!-- Standards -->
           <h5 class="mt-4 mb-3">Normy</h5>
           <a href="{% url 'standard_list' %}" class="list-group-item list-group-item-action">
             Normy badawcze
@@ -84,7 +78,6 @@
         </div>
       </div>
 
-      <!-- Main Content -->
       <main class="col-md-9 col-lg-10 main-content">
         {% block content %}
         {% endblock %}
@@ -92,7 +85,6 @@
     </div>
   </div>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   {% block extra_js %}{% endblock %}
 </body>

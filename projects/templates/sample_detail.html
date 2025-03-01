@@ -3,7 +3,7 @@
 {% block content %}
 <div class="card shadow">
   <div class="card-header d-flex justify-content-between align-items-center">
-    <h4>{{ sample.name }}</h4>
+    <h4>Próbka: {{ sample.name }}</h4>
     {% if request.user.groups.all.0.name == 'Lab_member' or request.user.is_superuser %}
       <div>
         <a href="{% url 'sample_update' sample.pk %}" class="btn btn-sm btn-outline-secondary">Edytuj</a>
@@ -23,15 +23,15 @@
       <dd class="col-sm-9">{{ sample.description|default:"-" }}</dd>
     </dl>
     
-    <h5>Powiązane sprawozdania</h5>
+    <h5>Wyniki badań:</h5>
     <ul class="list-group">
-      {% for report in sample.report_set.all %}
+      {% if sample.report %}
         <li class="list-group-item">
-          <a href="{% url 'report_detail' report.code_name %}">{{ report.code_name }}</a>
+          Sprawozdanie nr: <a href="{% url 'report_detail' sample.report.code_name %}">{{ sample.report.code_name }}</a>
         </li>
-      {% empty %}
+      {% else %}
         <li class="list-group-item text-muted">Brak powiązanych sprawozdań</li>
-      {% endfor %}
+      {% endif %}
     </ul>
   </div>
 </div>

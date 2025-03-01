@@ -1,0 +1,130 @@
+[
+    {
+        "name": "PN-EN 12350-1",
+        "method": "Pobieranie próbek"
+    },
+    {
+        "name": "PN-EN 12350-3",
+        "method": "Oznaczenie konsystencji metodą Ve-Be"
+    },
+    {
+        "name": "PN-EN 12350-2",
+        "method": "Oznaczenie konsystencji metodą stożka opadowego"
+    },
+    {
+        "name": "PN-EN 12350-5",
+        "method": "Oznaczenie konsystencji metodą stolika rozpływowego"
+    },
+    {
+        "name": "PN-EN 12350-6",
+        "method": "Oznaczenie gęstości świeżego betonu"
+    },
+    {
+        "name": "PN-EN 12350-7",
+        "method": "Oznaczenie zawartości powietrza"
+    },
+    {
+        "name": "PN-EN 12390-3",
+        "method": "Oznaczanie wytrzymałości na ściskanie"
+    },
+    {
+        "name": "PN-EN 12350-1",
+        "method": "Oznaczanie wytrzymałości na ściskanie"
+    },
+    {
+        "name": "PN-EN 12390-7",
+        "method": "Oznaczanie gęstości betonu"
+    },
+    {
+        "name": "PN-EN 12350-1",
+        "method": "Oznaczanie gęstości betonu"
+    },
+    {
+        "name": "PN-EN 12390-6",
+        "method": "Wytrzymałość na rozciąganie przy rozłupywaniu"
+    },
+    {
+        "name": "PN-EN 14721",
+        "method": "Zawartość zbrojenia w stwardniałym betonie"
+    },
+    {
+        "name": "PN-EN 12390-5",
+        "method": "Wytrzymałość na zginanie"
+    },
+    {
+        "name": "PN-EN 12504-2",
+        "method": "Oznaczenie liczby odbicia"
+    },
+    {
+        "name": "PN-EN 12504",
+        "method": "Badanie wytrzymałości odwiertów rdzeniowych"
+    },
+    {
+        "name": "PN-EN 1015-1",
+        "method": "Określenie rozkładu wielkości ziaren (metodą analizy sitowej)"
+    },
+    {
+        "name": "PN-EN 1015-3",
+        "method": "Konsystencja świeżej zaprawy"
+    },
+    {
+        "name": "PN-EN 1015-6",
+        "method": "Gęstość objętościowa świeżej zaprawy"
+    },
+    {
+        "name": "PN-EN 1015-7",
+        "method": "Zawartość powietrza"
+    },
+    {
+        "name": "PN-EN 1015-10",
+        "method": "Gęstość wysuszonej stwardniałej zaprawy"
+    },
+    {
+        "name": "PN-EN 1015-12:2002",
+        "method": "Zaprawy – Przyczepność do podłoża"
+    },
+    {
+        "name": "PN-EN 1015-11:2001, PKT. 9 + A1:2007",
+        "method": "Zaprawy – Wytrzymałość na ściskanie"
+    },
+    {
+        "name": "PN-EN 1015-11:2001, PKT. 8 + A1:2007",
+        "method": "Zaprawy – Wytrzymałość na zginanie"
+    },
+    {
+        "name": "PN-EN 1015-18:2003",
+        "method": "Zaprawy budowlane – Absorpcja"
+    },
+    {
+        "name": "PN-EN 1015-9:2001 + A1:2007",
+        "method": "Zaprawy budowlane – Czas korekty świeżej zaprawy"
+    },
+    {
+        "name": "PN-EN 1015-9:2001 + A1:2007",
+        "method": "Zaprawy budowlane – Czas zachowania właściwości roboczych"
+    },
+    {
+        "name": "PN-B-04500:1985",
+        "method": "Zaprawy budowlane – Czas zachowania właściwości roboczych"
+    },
+    {
+        "name": "PN-EN 1097-3:2000",
+        "method": "Zaprawy budowlane – Gęstość nasypowa suchej mieszanki"
+    },
+    {
+        "name": "PN-B-04500:1985 + PN-EN 1015-10:2001 + A1:2007",
+        "method": "Zaprawy budowlane – Gęstość objętościowa zaprawy stwardniałej"
+    },
+    {
+        "name": "PN-85/B04500 + PN-EN 1015-6:2000 + A1:2007",
+        "method": "Zaprawy budowlane – Gęstość objętościowa zaprawy świeżej"
+    },
+    {
+        "name": "PN-B-04500:1985 + A1:2007",
+        "method": "Zaprawy budowlane – Kapilarne podciąganie wody"
+    },
+    {
+        "name": "PN-85/B04500 + PN-EN1015-3:2000 + A1:2005 + A2: 2007",
+        "method": "Zaprawy budowlane – Konsystencja świeżej zaprawy"
+    }
+]
