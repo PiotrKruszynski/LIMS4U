@@ -3,7 +3,6 @@ from users.models import User
 from users.forms import RegisterForm
 
 
-
 # Create your tests here.
 
 @pytest.mark.django_db

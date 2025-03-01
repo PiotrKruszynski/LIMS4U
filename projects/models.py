@@ -14,15 +14,15 @@ User = get_user_model()
 class Project(models.Model):
     # https://docs.djangoproject.com/en/5.1/ref/models/fields/
     class StatusChoices(models.TextChoices):
-        OPEN = 'open', 'Open'
-        CLOSED = 'closed', 'Closed'
-        AWAITING_APPROVAL = 'awaiting approval', 'Awaiting Approval'
+        OPEN = 'open', 'W przygotowaniu'
+        CLOSED = 'closed', 'Zakończony'
+        AWAITING_APPROVAL = 'awaiting approval', 'Oczekuje na akceptację'
 
     name = models.CharField("Nazwa projektu", max_length=64)
     client = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        limit_choices_to={'user_type': 'company'},
+        limit_choices_to={'groups__name': "Lab_user"},
         related_name='projects_as_client' # relacja odwrotna dodana z powodu błędu
     )
     assign_to = models.ForeignKey(
@@ -62,18 +62,18 @@ class Project(models.Model):
 
 class Sample(models.Model):
     class MaterialType(models.TextChoices):
-        UNSELECTED = "UNS", "Unselected"
-        CONCRETE = "CON", "Concrete"
-        EXTERIOR_FACADE = "EXF", "Exterior Facade"
-        SPORTS_SURFACE = "SPS", "Sports Surface"
-        PULL_OFF = "OFF", "Pull-off"
-        WALLPAPER = "WAP", "Wallpaper"
-        SYNTHETIC_TURF = "SYT", "Synthetic Turf"
-        PLASTER_AND_ADHESIVES = "PLA", "Plaster and Adhesives"
-        CONCRETE_PREFABRICATED = "CPR", "Concrete Prefabricated Products"
-        FLOOR_COVERING = "FLC", "Floor Covering"
-        SANITARY_PRODUCT = "SAN", "Sanitary Product"
-        EXTERIOR_SHUTTERS = "EXS", "Exterior Shutters"
+        UNSELECTED = "UNS", "Niewybrany"
+        CONCRETE = "CON", "Wyroby związane z betonem"
+        EXTERIOR_FACADE = "EXF", "Elewacje zewnętrzne"
+        SPORTS_SURFACE = "SPS", "Nawierzchnie sportowe"
+        PULL_OFF = "OFF", "Testy pull-off"
+        WALLPAPER = "WAP", "Tapety"
+        SYNTHETIC_TURF = "SYT", "Darń syntetyczna"
+        PLASTER_AND_ADHESIVES = "PLA", "Tynk i kleje"
+        CONCRETE_PREFABRICATED = "CPR", "Wyroby prefabrykowane z betonu"
+        FLOOR_COVERING = "FLC", "Wykładziny podłogowe"
+        SANITARY_PRODUCT = "SAN", "Wyroby sanitarne"
+        EXTERIOR_SHUTTERS = "EXS", "Zasłony i żaluzje zewnętrzne"
 
     name = models.CharField("Nazwa próbki", max_length=50)
     description = models.TextField(null=True, blank=True)
@@ -118,7 +118,7 @@ class ResearchStandard(models.Model):
 class Report(models.Model):
     code_name = models.CharField("Numer sprawozdania", max_length=16, unique=True, validators=[validate_code_name], help_text="Numer sprawozdania (litery/numery/-)")
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    sample = models.OneToOneField(Sample, on_delete=models.SET_NULL, null=True, blank=True, related_name='report')
+    sample = models.OneToOneField(Sample, on_delete=models.SET_NULL, null=True, blank=True, related_name='report') # sample.report
     research_standards = models.ManyToManyField(ResearchStandard,through='ReportResearchStandard',related_name='reports') # a bez related_name byłoby report_set_all
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)

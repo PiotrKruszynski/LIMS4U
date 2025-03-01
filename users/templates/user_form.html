@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="margin-top: 100px;">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header">
+          <h4>Edytuj dane użytkownika</h4>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <div class="mb-3">
+              <label class="form-label">{{ form.first_name.label }}</label>
+              {{ form.first_name }}
+              {% for error in form.first_name.errors %}
+                <div class="text-danger">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">{{ form.last_name.label }}</label>
+              {{ form.last_name }}
+              {% for error in form.last_name.errors %}
+                <div class="text-danger">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            {% if is_company %}
+              <div class="mb-3">
+                <label class="form-label">{{ form.company_name.label }}</label>
+                {{ form.company_name }}
+                {% for error in form.company_name.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">{{ form.company_address.label }}</label>
+                {{ form.company_address }}
+                {% for error in form.company_address.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">{{ form.tax_id.label }}</label>
+                {{ form.tax_id }}
+                {% for error in form.tax_id.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <div class="d-flex justify-content-between mt-4">
+              <a href="{% url 'user_profile' %}" class="btn btn-outline-secondary">Anuluj</a>
+              <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

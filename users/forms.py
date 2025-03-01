@@ -60,3 +60,13 @@ class LoginForm(forms.Form): # nie tworzy i nie zapisuje modelu!
                 raise ValidationError("Wprowadź poprawne dane")
         return cd
 
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'company_name',
+            'company_address',
+            'tax_id'
+        ]

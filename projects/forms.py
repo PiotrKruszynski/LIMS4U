@@ -1,4 +1,6 @@
 from django import forms
+from django.db.models import Q
+
 from .models import Project, Sample, Report
 from users.models import User
 
@@ -12,14 +14,6 @@ class ProjectForm(forms.ModelForm):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
-        if user.user_type == 'company':
-            self.fields['client'].queryset = User.objects.filter(pk=user.pk)
-            self.fields['client'].initial = user
-            self.fields['client'].disabled = True
-        else:
-            self.fields['client'].queryset = User.objects.filter(user_type='company')
-            self.fields['assign_to'].queryset = User.objects.filter(groups__name='Lab_member')
-
 
 class SampleForm(forms.ModelForm):
     class Meta:
@@ -28,6 +22,10 @@ class SampleForm(forms.ModelForm):
         widgets = {
             'collection_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
 
 
 class ReportForm(forms.ModelForm):
@@ -43,15 +41,8 @@ class ReportForm(forms.ModelForm):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
-        if user.user_type == 'company':
-            self.fields['project'].queryset = Project.objects.filter(client=user)
-        else:
-            self.fields['project'].queryset = Project.objects.all()
+        self.fields['project'].queryset = Project.objects.all()
 
-        self.fields['sample'].queryset = Sample.objects.none()
-        if 'project' in self.data:
-            try:
-                project_id = int(self.data.get('project'))
-                self.fields['sample'].queryset = Sample.objects.filter(report__isnull=True, project=project_id)
-            except (ValueError, TypeError):
-                pass
+        self.fields['sample'].queryset = Sample.objects.filter(
+            Q(report__isnull=True) | Q(report__id=self.instance.pk)
+        )
